@@ -2,7 +2,6 @@ import budgetModel from "../models/budget.model.js";
 import userModel from "../models/user.model.js";
 
 const setBudget = async (req, res) => {
-  console.log("Request aa gu");
   
   try {
     const { amount } = req.body;
@@ -55,22 +54,37 @@ const setBudget = async (req, res) => {
 
 const updateBudget = async (req, res) => {
   try {
-    let { amount } = req.body;
+    let { amount,spent } = req.body;
     const { userId } = req.user;
 
-    amount = Number(amount);
 
-    const budget = await budgetModel.findOneAndUpdate(
-      {
-        userId,
-      },
-      {
-        amount,
-      },
-      {
-        new: true,
-      }
-    );
+    amount = Number(amount)
+    const budget = await budgetModel.findOne({userId})
+
+    const spendPercent = Math.floor((spent/amount)*100)
+    
+    if(spendPercent>=100 && budget.flags.hundred == true)
+    {
+        budget.flags.hundred = false
+    }
+    else if(spendPercent>=80 && budget.flags.eighty==true)
+    {
+        budget.flags.hundred = false
+        budget.flags.eighty = false
+    }
+
+    else
+    {
+        budget.flags.hundred = false
+        budget.flags.eighty = false
+        budget.flags.sixty = false
+    }
+
+    budget.amount = amount;
+
+    await budget.save()
+
+
 
     res.status(201).json({
       mess: "Budget updated successfully",

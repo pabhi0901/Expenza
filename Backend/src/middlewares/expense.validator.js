@@ -75,7 +75,7 @@ export const validateCreateExpense = [
     .withMessage("Bill image URL must be a valid URL"),
 
   body("vendorName")
-    .optional()
+    .optional({ nullable: true })
     .isString()
     .withMessage("Vendor name must be a string")
     .isLength({ max: 100 })
@@ -87,30 +87,19 @@ export const validateCreateExpense = [
     .withMessage("Items must be an array"),
 
   body("items.*.name")
-    .optional()
+    .optional({ checkFalsy: true })
     .isString()
     .withMessage("Item name must be a string"),
 
   body("items.*.quantity")
-    .optional()
-    .isNumeric()
-    .withMessage("Item quantity must be a number")
-    .isInt({ min: 1 })
+    .optional({ nullable: true, checkFalsy: true })
+    .custom((value) => value === undefined || value === null || (typeof value === 'number' && value >= 1))
     .withMessage("Item quantity must be at least 1"),
 
   body("items.*.price")
-    .optional()
-    .isNumeric()
-    .withMessage("Item price must be a number")
-    .isFloat({ min: 0 })
+    .optional({ nullable: true, checkFalsy: true })
+    .custom((value) => value === undefined || value === null || (typeof value === 'number' && value >= 0))
     .withMessage("Item price must be non-negative"),
-
-  body("items.*.total")
-    .optional()
-    .isNumeric()
-    .withMessage("Item total must be a number")
-    .isFloat({ min: 0 })
-    .withMessage("Item total must be non-negative"),
 
   handleValidationErrors,
 ];
@@ -188,7 +177,7 @@ export const validateUpdateExpense = [
     .withMessage("Bill image URL must be a valid URL"),
 
   body("vendorName")
-    .optional()
+    .optional({ nullable: true })
     .isString()
     .withMessage("Vendor name must be a string")
     .isLength({ max: 100 })
@@ -200,30 +189,19 @@ export const validateUpdateExpense = [
     .withMessage("Items must be an array"),
 
   body("items.*.name")
-    .optional()
+    .optional({ checkFalsy: true })
     .isString()
     .withMessage("Item name must be a string"),
 
   body("items.*.quantity")
-    .optional()
-    .isNumeric()
-    .withMessage("Item quantity must be a number")
-    .isInt({ min: 1 })
+    .optional({ nullable: true, checkFalsy: true })
+    .custom((value) => value === undefined || value === null || (typeof value === 'number' && value >= 1))
     .withMessage("Item quantity must be at least 1"),
 
   body("items.*.price")
-    .optional()
-    .isNumeric()
-    .withMessage("Item price must be a number")
-    .isFloat({ min: 0 })
+    .optional({ nullable: true, checkFalsy: true })
+    .custom((value) => value === undefined || value === null || (typeof value === 'number' && value >= 0))
     .withMessage("Item price must be non-negative"),
-
-  body("items.*.total")
-    .optional()
-    .isNumeric()
-    .withMessage("Item total must be a number")
-    .isFloat({ min: 0 })
-    .withMessage("Item total must be non-negative"),
 
   handleValidationErrors,
 ];

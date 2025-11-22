@@ -30,5 +30,6 @@ router.post("/addByImage",authMiddleware,upload.single('image'),expenseControlle
 
 router.get("/",authMiddleware,expenseController.getAllExpense)
 
+router.post("/ecommerce",authMiddleware,expenseController.getEcommerceBills)
 
 export default router

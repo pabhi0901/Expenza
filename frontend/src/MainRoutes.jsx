@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import SetBudget from './pages/SetBudget'
 import AuthCallback from './pages/AuthCallback'
+import CalendarExpense from './pages/CalendarExpense'
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -26,6 +27,11 @@ const MainRoutes = () => {
         <Route path='/' element={
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        }/>
+        <Route path='/calendar' element={
+          <ProtectedRoute>
+            <CalendarExpense />
           </ProtectedRoute>
         }/>
         <Route path='/setBudget' element={

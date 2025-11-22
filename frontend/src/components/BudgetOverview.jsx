@@ -7,6 +7,12 @@ const BudgetOverview = ({ budgetData, onBudgetUpdated }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState('');
 
+  if (!budgetData || !budgetData.amount || budgetData.spent === undefined || budgetData.percentUsed === undefined) {
+    return null;
+  }
+
+  const remaining = budgetData.amount - budgetData.spent;
+
   const handleEdit = () => {
     setEditValue(budgetData.amount.toString());
     setIsEditing(true);
@@ -124,7 +130,7 @@ const BudgetOverview = ({ budgetData, onBudgetUpdated }) => {
               </div>
               <div className="stat-content">
                 <p className="stat-title">Remaining</p>
-                <p className="stat-number">₹{budgetData.remaining.toLocaleString()}</p>
+                <p className="stat-number">₹{remaining.toLocaleString()}</p>
               </div>
             </div>
           </div>

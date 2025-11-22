@@ -58,6 +58,7 @@ else
       email: user.email,
       avatar: user.avatar,
       firstTime: user.firstTime,
+      createdAt: user.createdAt,
    }));
    
    res.redirect(`http://localhost:5173/auth/callback?data=${userData}`);
